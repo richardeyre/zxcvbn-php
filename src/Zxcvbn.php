@@ -66,12 +66,12 @@ class Zxcvbn
         $score = $this->scorer->score($entropy);
         $metrics = $this->scorer->getMetrics();
         // Get suggestions
-        $suggestions = $this->suggester->getFeedback($score, $bestMatches);
+        $feedback = $this->suggester->getFeedback($score, $bestMatches);
 
         $timeStop = microtime(true) - $timeStart;
         // Include metrics and calculation time.
         $params = array_merge($metrics, array('calc_time' => $timeStop));
-        return $this->result($password, $entropy, $bestMatches, $score, $suggestions, $params);
+        return $this->result($password, $entropy, $bestMatches, $score, $feedback, $params);
     }
 
     /**
@@ -81,17 +81,17 @@ class Zxcvbn
      * @param float $entropy
      * @param array $matches
      * @param int $score
-     * @param array $suggestions
+     * @param array $feedback
      * @param array $params
      * @return array
      */
-    protected function result($password, $entropy, $matches, $score, $suggestions = array(), $params = array()) {
+    protected function result($password, $entropy, $matches, $score, $feedback = array(), $params = array()) {
         $r = array(
             'password'       => $password,
             'entropy'        => $entropy,
             'match_sequence' => $matches,
             'score'          => $score,
-            'suggestions'    => $suggestions,
+            'feedback'       => $feedback,
         );
         return array_merge($params, $r);
     }
