@@ -29,6 +29,7 @@ class Suggester
             }
         }
         $feedback = $this->getMatchFeedback($longest, sizeof($sequence) === 1);
+        return $feedback;
     }
 
     /**
