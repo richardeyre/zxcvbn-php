@@ -52,7 +52,7 @@ class Zxcvbn
         $timeStart = microtime(true);
         if (strlen($password) === 0) {
             $timeStop = microtime(true) - $timeStart;
-            return $this->result($password, 0, array(), 0, array('calc_time' => $timeStop));
+            return $this->result($password, 0, array(), 0, array('warning' => '', 'suggestions' => array()), array('calc_time' => $timeStop));
         }
 
         // Get matches for $password.
