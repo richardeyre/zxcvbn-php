@@ -19,11 +19,17 @@ class Zxcvbn
      */
     protected $matcher;
 
+    /**
+     * @var
+     */
+    protected $suggester;
+
     public function __construct()
     {
         $this->scorer = new \ZxcvbnPhp\Scorer();
         $this->searcher = new \ZxcvbnPhp\Searcher();
         $this->matcher = new \ZxcvbnPhp\Matcher();
+        $this->suggester = new \ZxcvbnPhp\Suggester();
     }
 
     /**
@@ -59,11 +65,13 @@ class Zxcvbn
         // Calculate score and get crack time.
         $score = $this->scorer->score($entropy);
         $metrics = $this->scorer->getMetrics();
+        // Get suggestions
+        $suggestions = $this->suggester->getFeedback($score, $bestMatches);
 
         $timeStop = microtime(true) - $timeStart;
         // Include metrics and calculation time.
         $params = array_merge($metrics, array('calc_time' => $timeStop));
-        return $this->result($password, $entropy, $bestMatches, $score, $params);
+        return $this->result($password, $entropy, $bestMatches, $score, $suggestions, $params);
     }
 
     /**
@@ -73,16 +81,17 @@ class Zxcvbn
      * @param float $entropy
      * @param array $matches
      * @param int $score
+     * @param array $suggestions
      * @param array $params
-     *
      * @return array
      */
-    protected function result($password, $entropy, $matches, $score, $params = array()) {
+    protected function result($password, $entropy, $matches, $score, $suggestions = array(), $params = array()) {
         $r = array(
             'password'       => $password,
             'entropy'        => $entropy,
             'match_sequence' => $matches,
-            'score'          => $score
+            'score'          => $score,
+            'suggestions'    => $suggestions,
         );
         return array_merge($params, $r);
     }
