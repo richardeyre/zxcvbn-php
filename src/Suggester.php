@@ -24,7 +24,7 @@ class Suggester
         }
         $longest = $sequence[0];
         for ($i = 1; $i < sizeof($sequence); $i++) {
-            if (sizeof($sequence[$i]->token) > sizeof($longest->token)) {
+            if (strlen($sequence[$i]->token) > strlen($longest->token)) {
                 $longest = $sequence[$i];
             }
         }
@@ -82,7 +82,7 @@ class Suggester
                 $suggestions[] = 'Use a longer keyboard pattern with more turns';
                 break;
             case 'repeat':
-                $warning = sizeof($match->repeatedChar) === 1
+                $warning = strlen($match->repeatedChar) === 1
                     ? 'Repeats like "aaa" are easy to guess'
                     : 'Repeats like "abcabcabc" are only slightly harder to guess than "abc"';
                 $suggestions[] = 'Avoid repeated words and characters';
