@@ -68,7 +68,7 @@ class Suggester
                 $word = $match->token;
                 if (preg_match('/^[A-Z][^A-Z]+$/', $word)) {
                     $suggestions[] = 'Capitalization doesn\'t help very much';
-                } elseif (preg_match('/^[^a-z]+$/', $word) && strtolower($word) != $word) {
+                } elseif (strtoupper($word) === $word) {
                     $suggestions[] = 'All-uppercase is almost as easy to guess as all-lowercase';
                 }
                 if (isset($match->l33t) && $match->l33t) {
